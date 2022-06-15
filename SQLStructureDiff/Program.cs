@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SQLStructureDiff
@@ -15,6 +16,8 @@ namespace SQLStructureDiff
 
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+
             // 仅支持三种命令：
             // SQLStructureDiff generate <DBTYPE> <CONN_STR>
             // SQLStructureDiff diff <DBTYPE> <BASE_FILE_NAME> <TARGET_FILE_NAME>
@@ -78,6 +81,29 @@ namespace SQLStructureDiff
             {
                 Utils.ShowMsg("参数不正确！");
             }            
+        }
+
+        /// <summary>
+        /// 自定义解析以查找资源文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var assemblyName = new AssemblyName(args.Name);
+
+            var fileName = assemblyName.Name + ".dll";
+            string res = executingAssembly.GetManifestResourceNames().FirstOrDefault(s => s.EndsWith(fileName));
+
+            using (var stream = executingAssembly.GetManifestResourceStream(res))
+            {
+                if (stream == null) return null;
+                var assemblyRawBytes = new byte[stream.Length];
+                stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
+                return Assembly.Load(assemblyRawBytes);
+            }
         }
     }
 }
