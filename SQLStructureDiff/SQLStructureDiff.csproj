@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Protobuf">
       <HintPath>Packages\Google.Protobuf.dll</HintPath>
@@ -74,6 +77,10 @@
     <EmbeddedResource Include="Packages\Google.Protobuf.xml" />
     <EmbeddedResource Include="Packages\MySql.Data.dll" />
     <EmbeddedResource Include="Packages\MySql.Data.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.png" />
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

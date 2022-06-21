@@ -28,3 +28,7 @@ This operation will print differences。
 > .\SQLStructureDiff /?
 ```
 
+#### Thanks
+
+Thanks for Xie Mengtian's creation of icon, which makes the program more *lively*.
+
